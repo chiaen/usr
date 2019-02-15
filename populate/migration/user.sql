@@ -2,8 +2,6 @@
 CREATE TABLE `user_records` (
   `uid`                    CHAR(32)     NOT NULL,
   `email`                  VARCHAR(255) NOT NULL,
-  `display_name`           TINYTEXT,
-  `phone_number`           CHAR(32),
   `password`               CHAR(128),
   PRIMARY KEY (`uid`)
 );
