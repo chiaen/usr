@@ -26,3 +26,7 @@ func (s *serviceImpl) SignupNewUser(ctx context.Context, req *authapi.PasswordRe
 func (s *serviceImpl) SignInWithPassword(ctx context.Context, req *authapi.PasswordRequest) (*authapi.TokenResponse, error) {
 	return nil, errUnimplemented
 }
+
+func (s *serviceImpl) UpdatePassword(ctx context.Context, req *authapi.PasswordRequest) (*authapi.TokenResponse, error) {
+	return nil, errUnimplemented
+}
