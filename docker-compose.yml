@@ -1,0 +1,8 @@
+version: '2.4'
+services:
+  rdbms:
+    image: mysql:5.7.25
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+  redis:
+    image: redis:5.0.3
