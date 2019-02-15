@@ -16,7 +16,7 @@ require (
 	github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e // indirect
 	github.com/gorilla/mux v1.7.0 // indirect
 	github.com/gregjones/httpcache v0.0.0-20190212212710-3befbb6ad0cc // indirect
-	github.com/grpc-ecosystem/grpc-gateway v1.7.0 // indirect
+	github.com/grpc-ecosystem/grpc-gateway v1.7.0
 	github.com/microcosm-cc/bluemonday v1.0.2 // indirect
 	github.com/openzipkin/zipkin-go v0.1.5 // indirect
 	github.com/pkg/errors v0.8.1 // indirect
@@ -44,6 +44,7 @@ require (
 	go4.org v0.0.0-20181109185143-00e24f1b2599 // indirect
 	golang.org/x/build v0.0.0-20190214220220-5d2b36639e09 // indirect
 	golang.org/x/exp v0.0.0-20190212162250-21964bba6549 // indirect
+	golang.org/x/net v0.0.0-20190213061140-3a22650c66bd
 	golang.org/x/oauth2 v0.0.0-20190212230446-3e8b2be13635 // indirect
 	golang.org/x/perf v0.0.0-20190124201629-844a5f5b46f4 // indirect
 	golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a // indirect

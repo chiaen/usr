@@ -18,3 +18,9 @@ services:
       dockerfile: deploy/Dockerfile_user
     ports:
       - 80
+  gateway:
+    build:
+      context: ./
+      dockerfile: deploy/Dockerfile_gateway
+    ports:
+      - 80
