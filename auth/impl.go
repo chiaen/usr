@@ -26,7 +26,7 @@ type serviceImpl struct {
 }
 
 func newAuthService() (authapi.AuthenticationServer, error) {
-	conn, err := dbr.Open("mysql", "root:@(mysql:3306)/usr", nil)
+	conn, err := dbr.Open("mysql", "root:@(mysql:3306)/orb", nil)
 	if err != nil {
 		return nil, err
 	}

@@ -1,9 +1,14 @@
 version: '2.4'
 services:
   rdbms:
-    image: mysql:5.7.25
+    build:
+      context: ./
+      dockerfile: deploy/Dockerfile_mysql
     environment:
+      MYSQL_DATABASE: orb
       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    ports:
+      - 3306:3306
   redis:
     image: redis:5.0.3
   auth:
