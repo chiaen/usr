@@ -1,0 +1,33 @@
+syntax = "proto3";
+package usr.api.auth;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.com/chiaen/usr/api/auth;auth";
+
+service Authentication {
+
+  rpc SignupNewUser (PasswordRequest) returns (TokenResponse) {
+    option (google.api.http) = { post: "/v1/auth/signup" body: "*" };
+  };
+
+  rpc SignInWithPassword (PasswordRequest) returns (TokenResponse) {
+    option (google.api.http) = { post: "/v1/auth/signin" body: "*" };
+  };
+
+}
+
+message PasswordRequest {
+  PasswordCredential password = 1;
+}
+
+message PasswordCredential {
+  string email = 1;
+  string password = 2;
+}
+
+message TokenResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+  int32 expires_in = 3;
+}
