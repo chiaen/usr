@@ -66,7 +66,7 @@ func (t *accessTokenImpl) ExpiresIn() int32 {
 
 func issueToken(uid string) AccessToken {
 	return &accessTokenImpl{
-		JWT: baseJWT(accessTokenExpiration, uid),
+		JWT:     baseJWT(accessTokenExpiration, uid),
 		signKey: accessTokenKey,
 	}
 }

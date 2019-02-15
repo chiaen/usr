@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
-	"github.com/chiaen/usr/utils/crypto"
 
 	authapi "github.com/chiaen/usr/api/auth"
+	"github.com/chiaen/usr/utils/crypto"
 	"github.com/chiaen/usr/utils/uuid"
 	"github.com/gocraft/dbr"
 	"google.golang.org/grpc/codes"
@@ -66,7 +66,7 @@ func (s *serviceImpl) SignupNewUser(ctx context.Context, req *authapi.PasswordRe
 	token := issueToken(uid.String())
 	return &authapi.TokenResponse{
 		AccessToken: token.String(),
-		ExpiresIn: token.ExpiresIn(),
+		ExpiresIn:   token.ExpiresIn(),
 		// TODO: add refresh token
 	}, nil
 }
@@ -94,7 +94,7 @@ func (s *serviceImpl) SignInWithPassword(ctx context.Context, req *authapi.Passw
 	token := issueToken(user.UserID)
 	return &authapi.TokenResponse{
 		AccessToken: token.String(),
-		ExpiresIn: token.ExpiresIn(),
+		ExpiresIn:   token.ExpiresIn(),
 		// TODO: add refresh token
 	}, nil
 }
@@ -141,7 +141,7 @@ func (s *serviceImpl) UpdatePassword(ctx context.Context, req *authapi.PasswordR
 	token := issueToken(user.UserID)
 	return &authapi.TokenResponse{
 		AccessToken: token.String(),
-		ExpiresIn: token.ExpiresIn(),
+		ExpiresIn:   token.ExpiresIn(),
 		// TODO: add refresh token
 	}, nil
 }

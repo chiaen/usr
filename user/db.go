@@ -1,9 +1,9 @@
 package main
 
 const (
-	TableUserRecords  = "user_records"
+	TableUserRecords     = "user_records"
 	TableUserHasInterest = "user_has_interests"
-	TableInterests = "interests"
+	TableInterests       = "interests"
 )
 
 const (

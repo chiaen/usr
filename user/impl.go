@@ -14,8 +14,8 @@ var (
 )
 
 type userInterest struct {
-	UserID string `db:"uid"`
-	Email string `db:"email"`
+	UserID       string `db:"uid"`
+	Email        string `db:"email"`
 	InterestName string `db:"interest_name"`
 }
 
