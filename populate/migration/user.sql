@@ -2,7 +2,7 @@
 CREATE TABLE `user_records` (
   `uid`                    CHAR(36)     NOT NULL,
   `email`                  VARCHAR(255) NOT NULL,
-  `password`               CHAR(128),
+  `password`               CHAR(128) NOT NULL,
   PRIMARY KEY (`uid`)
 );
 
