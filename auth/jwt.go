@@ -2,6 +2,8 @@ package main
 
 import (
 	"errors"
+	"fmt"
+	"log"
 	"time"
 
 	"github.com/SermoDigital/jose/crypto"
@@ -32,11 +34,48 @@ var (
 	accessTokenKey     interface{} = []byte("m6VdMH+DnoSAK/0brNDG/N1JYAFJUUI4/Q8q60BU9fc=") // a random key
 )
 
+type AccessToken interface {
+	fmt.Stringer
+
+	ExpiresIn() int32
+}
+
+type accessTokenImpl struct {
+	jwt.JWT
+	signKey interface{}
+	cache   string
+}
+
+func (t *accessTokenImpl) String() string {
+	if t.cache != "" {
+		return t.cache
+	} else if jwtBytes, err := t.Serialize(t.signKey); err != nil {
+		log.Printf("access token serialization failed", "error", err, "claims", t.Claims())
+		return ""
+	} else {
+		t.cache = string(jwtBytes)
+	}
+	return t.cache
+}
+
+func (t *accessTokenImpl) ExpiresIn() int32 {
+	exp, _ := t.Claims().Expiration()
+	nbf, _ := t.Claims().NotBefore()
+	return int32(exp.Unix() - nbf.Unix())
+}
+
+func issueToken(uid string) AccessToken {
+	return &accessTokenImpl{
+		JWT: baseJWT(accessTokenExpiration, uid),
+		signKey: accessTokenKey,
+	}
+}
+
 var timeNow = func() time.Time {
 	return time.Now().UTC()
 }
 
-func baseJWT(expiration time.Duration) jwt.JWT {
+func baseJWT(expiration time.Duration, uid string) jwt.JWT {
 	claims := jws.Claims{}
 	claims.SetSubject(tokenSubject)
 	claims.SetIssuer(tokenIssuer)
@@ -45,6 +84,7 @@ func baseJWT(expiration time.Duration) jwt.JWT {
 	claims.SetIssuedAt(now)
 	claims.SetNotBefore(now)
 	claims.SetExpiration(now.Add(expiration))
+	claims.Set("uid", uid)
 	token := jws.NewJWT(claims, tokenSigningMethod)
 	return token
 }
