@@ -1,0 +1,47 @@
+syntax = "proto3";
+package usr.api.user;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.com/chiaen/usr/api/user;user";
+
+service User {
+
+  rpc GetProfile (GetProfileRequest) returns (ProfileResponse) {
+    option (google.api.http) = { get: "/v1/user/profile" };
+  };
+
+  rpc AddInterest(AddInterestRequest) returns (AddInterestResponse) {
+      option (google.api.http) = { post: "/v1/user/interest" body: "*"};
+  }
+
+  rpc ListUserByInterest(ListUserByInterestRequest) returns (ListUserByInterestResponse) {
+      option (google.api.http) = { get: "/v1/user/interest/{interest}" };
+  }
+
+}
+
+message GetProfileRequest {
+  // empty
+}
+
+message ProfileResponse {
+  string email = 1;
+  repeated string interest = 2;
+}
+
+message AddInterestRequest {
+  string interest = 1;
+  bool published = 2;
+}
+
+message AddInterestResponse {
+}
+
+message ListUserByInterestRequest {
+    string interest = 1;
+}
+
+message ListUserByInterestResponse {
+    repeated string email = 1;
+}
