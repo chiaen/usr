@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/chiaen/usr/auth"
 
 	authapi "github.com/chiaen/usr/api/auth"
 	"github.com/chiaen/usr/utils/crypto"
@@ -63,7 +64,7 @@ func (s *serviceImpl) SignupNewUser(ctx context.Context, req *authapi.PasswordRe
 		}).Exec(); err != nil {
 		return nil, status.Errorf(codes.Internal, "db insertion error: %v", err)
 	}
-	token := issueToken(uid.String())
+	token := auth.IssueToken(uid.String())
 	return &authapi.TokenResponse{
 		AccessToken: token.String(),
 		ExpiresIn:   token.ExpiresIn(),
@@ -91,7 +92,7 @@ func (s *serviceImpl) SignInWithPassword(ctx context.Context, req *authapi.Passw
 	if err == dbr.ErrNotFound || !crypto.Compare(user.Password, password) {
 		return nil, status.Errorf(codes.InvalidArgument, "incorrect login parameters")
 	}
-	token := issueToken(user.UserID)
+	token := auth.IssueToken(user.UserID)
 	return &authapi.TokenResponse{
 		AccessToken: token.String(),
 		ExpiresIn:   token.ExpiresIn(),
@@ -138,7 +139,7 @@ func (s *serviceImpl) UpdatePassword(ctx context.Context, req *authapi.PasswordR
 		}).Exec(); err != nil {
 		return nil, status.Errorf(codes.Internal, "db insertion error: %v", err)
 	}
-	token := issueToken(user.UserID)
+	token := auth.IssueToken(user.UserID)
 	return &authapi.TokenResponse{
 		AccessToken: token.String(),
 		ExpiresIn:   token.ExpiresIn(),

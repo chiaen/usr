@@ -34,9 +34,6 @@ func newUserService() (userapi.UserServer, error) {
 }
 
 func (s *serviceImpl) GetProfile(ctx context.Context, req *userapi.GetProfileRequest) (*userapi.ProfileResponse, error) {
-	//TODO: extract user form context
-	uid := "1234567"
-
 	return nil, errUnimplemented
 }
 

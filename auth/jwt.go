@@ -1,4 +1,4 @@
-package main
+package auth
 
 import (
 	"errors"
@@ -29,9 +29,11 @@ const (
 )
 
 var (
-	// jwt configurations
 	tokenSigningMethod             = crypto.SigningMethodHS256
 	accessTokenKey     interface{} = []byte("m6VdMH+DnoSAK/0brNDG/N1JYAFJUUI4/Q8q60BU9fc=") // a random key
+
+	ErrTokenInvalid = errors.New("token invalid")
+	ErrTokenExpired = errors.New("token expired")
 )
 
 type AccessToken interface {
@@ -64,12 +66,26 @@ func (t *accessTokenImpl) ExpiresIn() int32 {
 	return int32(exp.Unix() - nbf.Unix())
 }
 
-func issueToken(uid string) AccessToken {
+func IssueToken(uid string) AccessToken {
 	return &accessTokenImpl{
 		JWT:     baseJWT(accessTokenExpiration, uid),
 		signKey: accessTokenKey,
 	}
 }
+
+func ParseToken(tokenStr string) (jwt.JWT, error) {
+	parsed, err := jws.ParseJWT([]byte(tokenStr))
+	if err != nil {
+		return nil, err
+	}
+	if err = parsed.Validate(accessTokenKey, tokenSigningMethod, tokenValidator()); err == jwt.ErrTokenIsExpired {
+		return nil, ErrTokenExpired
+	} else if err != nil {
+		return nil, ErrTokenInvalid
+	}
+	return parsed, nil
+}
+
 
 var timeNow = func() time.Time {
 	return time.Now().UTC()
