@@ -8,10 +8,12 @@ require (
 	github.com/alecthomas/kingpin v2.2.6+incompatible
 	github.com/coreos/go-systemd v0.0.0-20190212144455-93d5ec2c7f76 // indirect
 	github.com/go-logfmt/logfmt v0.4.0 // indirect
+	github.com/gocraft/dbr v0.0.0-20190131145710-48a049970bd2
 	github.com/gogo/protobuf v1.2.0 // indirect
 	github.com/golang/lint v0.0.0-20181217174547-8f45f776aaf1 // indirect
 	github.com/golang/protobuf v1.2.1-0.20190205222052-c823c79ea157
 	github.com/google/pprof v0.0.0-20190208070709-b421f19a5c07 // indirect
+	github.com/google/uuid v1.1.0
 	github.com/googleapis/gax-go v2.0.2+incompatible // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e // indirect
 	github.com/gorilla/mux v1.7.0 // indirect
@@ -43,6 +45,7 @@ require (
 	go.opencensus.io v0.19.0 // indirect
 	go4.org v0.0.0-20181109185143-00e24f1b2599 // indirect
 	golang.org/x/build v0.0.0-20190214220220-5d2b36639e09 // indirect
+	golang.org/x/crypto v0.0.0-20190211182817-74369b46fc67
 	golang.org/x/exp v0.0.0-20190212162250-21964bba6549 // indirect
 	golang.org/x/net v0.0.0-20190213061140-3a22650c66bd
 	golang.org/x/oauth2 v0.0.0-20190212230446-3e8b2be13635 // indirect
