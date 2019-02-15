@@ -1,0 +1,11 @@
+FROM docker.io/chiaen/base as builder
+WORKDIR /go/src/github.com/chiaen/usr
+COPY . .
+WORKDIR /go/src/github.com/chiaen/usr/user
+ENV GO111MODULE=on
+RUN go build -o app *.go
+
+FROM alpine:latest
+WORKDIR /root/
+COPY --from=builder /go/src/github.com/chiaen/usr/user/app .
+CMD ["./app"]
