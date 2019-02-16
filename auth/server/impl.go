@@ -126,13 +126,9 @@ func (s *serviceImpl) UpdatePassword(ctx context.Context, req *authapi.PasswordR
 		return nil, status.Errorf(codes.Internal, "password hash error: %v", err)
 	}
 
-	if _, err := sess.InsertInto(TableUserRecords).
-		Columns(TableUserRecordsColums...).
-		Record(&userRecord{
-			UserID:   user.UserID,
-			Email:    user.Email,
-			Password: pwHash,
-		}).Exec(); err != nil {
+	if _, err := sess.Update(TableUserRecords).
+		Set(ColPassword, pwHash).
+		Exec(); err != nil {
 		return nil, status.Errorf(codes.Internal, "db insertion error: %v", err)
 	}
 	token := auth.IssueToken(user.UserID)
