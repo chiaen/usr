@@ -7,6 +7,8 @@ import (
 
 	"github.com/alecthomas/kingpin"
 	"github.com/chiaen/usr/api/user"
+	"github.com/chiaen/usr/auth"
+	"github.com/grpc-ecosystem/go-grpc-middleware"
 	"google.golang.org/grpc"
 )
 
@@ -23,7 +25,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("listen to port %s failed: %v", *exposing, err)
 	}
-	server := grpc.NewServer()
+	server := grpc.NewServer(grpc_middleware.WithUnaryServerChain(auth.UnaryTokenVerifier))
 	impl, err := newUserService()
 	if err != nil {
 		log.Fatalf("cannot init api server : %v", err)

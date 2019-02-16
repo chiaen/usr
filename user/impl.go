@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/chiaen/usr/auth"
 
 	userapi "github.com/chiaen/usr/api/user"
 	"github.com/gocraft/dbr"
@@ -34,6 +35,11 @@ func newUserService() (userapi.UserServer, error) {
 }
 
 func (s *serviceImpl) GetProfile(ctx context.Context, req *userapi.GetProfileRequest) (*userapi.ProfileResponse, error) {
+	uid, ok := auth.UserIDfromValidAccessToken(ctx)
+	if !ok {
+
+	}
+
 	return nil, errUnimplemented
 }
 

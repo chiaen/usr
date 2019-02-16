@@ -48,6 +48,21 @@ type accessTokenImpl struct {
 	cache   string
 }
 
+func (t *accessTokenImpl) parse(tokenStr string) error {
+	parsed, err := jws.ParseJWT([]byte(tokenStr))
+	if err != nil {
+		return err
+	}
+	if err = parsed.Validate(t.signKey, tokenSigningMethod, tokenValidator()); err == jwt.ErrTokenIsExpired {
+		return ErrTokenExpired
+	} else if err != nil {
+		return ErrTokenInvalid
+	}
+	t.JWT = parsed
+	t.cache = tokenStr
+	return nil
+}
+
 func (t *accessTokenImpl) String() string {
 	if t.cache != "" {
 		return t.cache
@@ -67,31 +82,31 @@ func (t *accessTokenImpl) ExpiresIn() int32 {
 }
 
 func IssueToken(uid string) AccessToken {
+	j := baseJWT(accessTokenExpiration)
+	j.Claims().Set("uid", uid)
 	return &accessTokenImpl{
-		JWT:     baseJWT(accessTokenExpiration, uid),
+		JWT:     j,
 		signKey: accessTokenKey,
 	}
 }
 
-func ParseToken(tokenStr string) (jwt.JWT, error) {
-	parsed, err := jws.ParseJWT([]byte(tokenStr))
-	if err != nil {
+// ParseAccessToken parses a token string and transforms into an access token.
+func ParseAccessToken(tokenStr string) (AccessToken, error) {
+	token := &accessTokenImpl{
+		JWT:     baseJWT(accessTokenExpiration),
+		signKey: accessTokenKey,
+	}
+	if err := token.parse(tokenStr); err != nil {
 		return nil, err
 	}
-	if err = parsed.Validate(accessTokenKey, tokenSigningMethod, tokenValidator()); err == jwt.ErrTokenIsExpired {
-		return nil, ErrTokenExpired
-	} else if err != nil {
-		return nil, ErrTokenInvalid
-	}
-	return parsed, nil
+	return token, nil
 }
-
 
 var timeNow = func() time.Time {
 	return time.Now().UTC()
 }
 
-func baseJWT(expiration time.Duration, uid string) jwt.JWT {
+func baseJWT(expiration time.Duration) jwt.JWT {
 	claims := jws.Claims{}
 	claims.SetSubject(tokenSubject)
 	claims.SetIssuer(tokenIssuer)
@@ -100,7 +115,6 @@ func baseJWT(expiration time.Duration, uid string) jwt.JWT {
 	claims.SetIssuedAt(now)
 	claims.SetNotBefore(now)
 	claims.SetExpiration(now.Add(expiration))
-	claims.Set("uid", uid)
 	token := jws.NewJWT(claims, tokenSigningMethod)
 	return token
 }

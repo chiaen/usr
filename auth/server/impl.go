@@ -2,18 +2,14 @@ package main
 
 import (
 	"context"
-	"github.com/chiaen/usr/auth"
 
 	authapi "github.com/chiaen/usr/api/auth"
+	"github.com/chiaen/usr/auth"
 	"github.com/chiaen/usr/utils/crypto"
 	"github.com/chiaen/usr/utils/uuid"
 	"github.com/gocraft/dbr"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-)
-
-var (
-	errUnimplemented = status.Error(codes.Unimplemented, "not implement yet")
 )
 
 type userRecord struct {
