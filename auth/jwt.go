@@ -23,9 +23,9 @@ const (
 	idTokenExpiration     = 120 * time.Hour
 	tokenLeeway           = time.Minute
 
-	tokenSubject  = "erp"
-	tokenIssuer   = "auth.erp.lativ.com"
-	tokenAudience = "api.erp.lativ.com"
+	tokenSubject  = "usr"
+	tokenIssuer   = "auth.usr"
+	tokenAudience = "api.usr"
 )
 
 var (
